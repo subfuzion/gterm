@@ -1,16 +1,17 @@
-package term
+package terminal
 
 import (
+	"fmt"
+
 	"github.com/subfuzion/gterm"
 	"github.com/subfuzion/gterm/driver"
 	"github.com/subfuzion/gterm/logging"
 	"github.com/subfuzion/gterm/style"
-	"fmt"
 )
 
 // New initializes a new Terminal instance.
-func New() (gterm.Terminal, error) {
-	t := &terminal{
+func New() (Interface, error) {
+	t := &term{
 		log: gterm.Logger,
 		driver: driver.NewTermbox(gterm.Logger),
 	}
@@ -18,7 +19,7 @@ func New() (gterm.Terminal, error) {
 	t.log("Init")
 	if err := t.driver.Init(); err != nil {
 		return nil, &driverError{
-			"terminal initialization failed",
+			"term initialization failed",
 			err.Error(),
 		}
 	}
@@ -35,40 +36,40 @@ func (e *driverError) Error() string {
 }
 
 
-// terminal implements the Terminal interface and controls the underlying
-// terminal device through the Driver interface.
-type terminal struct {
+// term implements the Terminal interface and controls the underlying
+// term device through the Driver interface.
+type term struct {
 	driver driver.Driver
 	log logging.LogPrinter
 	fg style.CellStyle
 	bg style.CellStyle
 }
 
-func (t terminal) End() {
+func (t term) End() {
 	t.log("End")
 	t.driver.End()
 }
 
-func (t terminal) Refresh() {
+func (t term) Refresh() {
 	t.log("Refresh")
 	t.driver.Refresh()
 }
 
-func (t *terminal) SetStyle(fg, bg style.CellStyle) {
+func (t *term) SetStyle(fg, bg style.CellStyle) {
 	t.log("SetStyle(%+v, %+v)", fg, bg)
 	t.fg = fg
 	t.bg = bg
 }
 
-func (t terminal) GetStyle() (fg, bg style.CellStyle) {
+func (t term) GetStyle() (fg, bg style.CellStyle) {
 	return t.fg, t.bg
 }
 
-func (t terminal) Fill(r rune) {
+func (t term) Fill(r rune) {
 	t.log("NOT IMPLEMENTED: Fill('%c')", r)
 }
 
-func (t terminal) Clear() {
+func (t term) Clear() {
 	t.log("Clear(%+v, %+v)", t.fg, t.bg)
 	t.driver.Clear(t.fg, t.bg)
 }

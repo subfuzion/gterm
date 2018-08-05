@@ -1,10 +1,10 @@
 package driver
 
 import (
-	"github.com/nsf/termbox-go"
+	tb "github.com/nsf/termbox-go"
 	"github.com/subfuzion/gterm/logging"
 	"github.com/subfuzion/gterm/style"
-	)
+)
 
 func NewTermbox(logger logging.LogPrinter) Driver {
 	return &driver{
@@ -17,21 +17,21 @@ type driver struct {
 }
 
 func (d driver) Init() error {
-	return termbox.Init()
+	return tb.Init()
 }
 
 func (d driver) End() {
-	termbox.Close()
+	tb.Close()
 }
 
 func (d driver) Refresh() {
-	if err := termbox.Flush(); err != nil {
+	if err := tb.Flush(); err != nil {
 		d.log(err)
 	}
 }
 
 func (d driver) Clear(fg, bg style.CellStyle) {
-	if err := termbox.Clear(termbox.Attribute(fg), termbox.Attribute(bg)); err != nil {
+	if err := tb.Clear(tb.Attribute(fg), tb.Attribute(bg)); err != nil {
 		d.log(err)
 	}
 }

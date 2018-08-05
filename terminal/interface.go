@@ -1,11 +1,12 @@
-package gterm
+package terminal
 
 import (
 	"github.com/subfuzion/gterm/style"
 )
 
-// Terminal relays keyboard and mouse events and manages the screen.
-type Terminal interface {
+// Interface is the main terminal interface for relaying keyboard
+// and mouse events and managing the screen.
+type Interface interface {
 	// End restores the tty modes to the status before initializing the
 	// terminal and closes open terminal device files.
 	End()

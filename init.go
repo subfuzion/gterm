@@ -5,7 +5,8 @@ import (
 	"github.com/subfuzion/gterm/logging"
 )
 
-// logger is the default LogPrinter for the gterm package.
+// Logger is the default LogPrinter for the gterm package.
+// Logging is only enabled when the DEBUG environment variable is set (DEBUG=1)
 var Logger logging.LogPrinter
 
 func init() {
@@ -17,6 +18,6 @@ func init() {
 		}
 		Logger = logging.NewLogger(f, prefix)
 	} else {
-		Logger = logging.NewLogger(os.Stdout, prefix)
+		Logger = logging.NewLogger(nil, prefix)
 	}
 }

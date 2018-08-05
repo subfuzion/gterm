@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/subfuzion/gterm/term"
+
+	"github.com/subfuzion/gterm/terminal"
 )
 
 func main() {
-	t, err := term.New()
+	t, err := terminal.New()
 	if err != nil {
 		panic(err)
 	}
-	defer t.End()
 
-	// pause until keypress
+	// wait for keypress to exit
 	fmt.Scanln()
+	t.End()
 }
