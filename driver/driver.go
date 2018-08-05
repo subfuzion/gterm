@@ -11,7 +11,7 @@ import (
 // Driver interface.
 type Driver interface {
 	Init() error
-	End()
+	Done()
 
 	// only the following two methods update the screen contents
 	// (by moving the back buffer to the terminal screen buffer

@@ -18,7 +18,7 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 	code := m.Run()
-	term.End()
+	term.Done()
 	os.Exit(code)
 }
 

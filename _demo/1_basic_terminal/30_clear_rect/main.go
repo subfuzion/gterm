@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/subfuzion/gterm/geometry"
 	"github.com/subfuzion/gterm/style"
 	"github.com/subfuzion/gterm/terminal"
 )
@@ -13,11 +14,14 @@ func main() {
 		panic(err)
 	}
 
-	t.SetStyle(style.ColorBlack, style.ColorCyan)
-	t.Fill('*')
+	// fill rect
+	t.SetStyle(style.ColorDefault, style.ColorCyan)
+	t.ClearRect(geometry.MakeRectangle(2, 1, 10, 5))
 	t.Refresh()
 
 	// wait for keypress to exit
 	fmt.Scanln()
-	t.End()
+
+	// restore tty
+	t.Done()
 }

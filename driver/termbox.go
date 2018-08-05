@@ -21,7 +21,7 @@ func (d driver) Init() error {
 	return tb.Init()
 }
 
-func (d driver) End() {
+func (d driver) Done() {
 	tb.Close()
 }
 

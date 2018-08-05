@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/subfuzion/gterm/geometry"
+		"github.com/subfuzion/gterm/terminal"
 	"github.com/subfuzion/gterm/style"
-	"github.com/subfuzion/gterm/terminal"
 )
 
 func main() {
@@ -14,16 +14,14 @@ func main() {
 		panic(err)
 	}
 
-	// update screen to show cyan color
-	t.SetStyle(style.ColorBlack, style.ColorCyan)
-	t.Clear()
-
 	// fill rect
-	t.SetStyle(style.ColorBlack, style.ColorWhite)
-	t.ClearRect(geometry.MakeRectangle(2, 1, 10, 5))
+	t.SetStyle(style.ColorBlack, style.ColorCyan)
+	t.FillRect(geometry.MakeRectangle(2, 1, 10, 5), '*')
 	t.Refresh()
 
 	// wait for keypress to exit
 	fmt.Scanln()
-	t.End()
+
+	// restore tty
+	t.Done()
 }

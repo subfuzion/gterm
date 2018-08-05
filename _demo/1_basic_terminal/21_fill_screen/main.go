@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/subfuzion/gterm/style"
 	"github.com/subfuzion/gterm/terminal"
 )
 
@@ -12,7 +13,13 @@ func main() {
 		panic(err)
 	}
 
+	t.SetStyle(style.ColorDefault, style.ColorCyan)
+	t.Fill('*')
+	t.Refresh()
+
 	// wait for keypress to exit
 	fmt.Scanln()
-	t.End()
+
+	// restore tty
+	t.Done()
 }

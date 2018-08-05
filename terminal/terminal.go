@@ -45,9 +45,9 @@ type term struct {
 	bg     style.CellStyle
 }
 
-func (t term) End() {
-	t.log("End")
-	t.driver.End()
+func (t term) Done() {
+	t.log("Done")
+	t.driver.Done()
 }
 
 func (t term) Refresh() {
@@ -88,11 +88,11 @@ func (t term) Fill(ch rune) {
 func (t term) FillRect(rect geometry.Rectangle, ch rune) error {
 	t.log("FillRect(%s, '%c')", rect, ch)
 
-	w, h := t.Size()
-	termRect := geometry.MakeRectangle(0, 0, w, h)
-	if !termRect.ContainsRectangle(rect) {
-		return ErrOutOfBoundsRequest(t.log, termRect, rect)
-	}
+	//w, h := t.Size()
+	//termRect := geometry.MakeRectangle(0, 0, w, h)
+	//if !termRect.ContainsRectangle(rect) {
+	//	return ErrOutOfBoundsRequest(t.log, termRect, rect)
+	//}
 
 	t.driver.FillRect(rect, t.fg, t.bg, ch)
 	return nil

@@ -8,9 +8,9 @@ import (
 // Interface is the main terminal interface for relaying keyboard
 // and mouse events and managing the screen.
 type Interface interface {
-	// End restores the tty modes to the status before initializing the
+	// Done restores the tty modes to the status before initializing the
 	// terminal and closes open terminal device files.
-	End()
+	Done()
 
 	// Refresh updates the current terminal with the output of this screen.
 	Refresh()
