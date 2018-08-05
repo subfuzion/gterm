@@ -6,7 +6,6 @@ import "github.com/subfuzion/gterm/style"
 // a specific location (row, column) on the screen.
 type Cell struct {
 	Rune rune
-	Fg style.CellStyle
-	Bg style.CellStyle
+	Fg   style.CellStyle
+	Bg   style.CellStyle
 }
-

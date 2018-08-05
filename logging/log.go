@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 	"log"
-		"path/filepath"
+	"path/filepath"
 	"runtime"
 )
 
@@ -31,4 +31,3 @@ func NewLogger(out io.Writer, prefix string) LogPrinter {
 		return func(format interface{}, v ...interface{}) { /* noop */ }
 	}
 }
-

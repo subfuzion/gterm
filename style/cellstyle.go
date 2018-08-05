@@ -25,4 +25,3 @@ const (
 	Underline
 	Reverse
 )
-

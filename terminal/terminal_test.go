@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/subfuzion/gterm/terminal"
 	"github.com/subfuzion/gterm/style"
+	"github.com/subfuzion/gterm/terminal"
 )
 
 var term terminal.Interface
