@@ -107,12 +107,34 @@ func (t term) SetCell(x, y int, ch rune) error {
 	return nil
 }
 
-func (t term) DrawLineHorizontal(p geometry.Point, length int) error {
+func (t term) DrawLineHorizontal(p geometry.Point, length int, first, middle, last rune) error {
+	t.log("DrawLineHorizontal(%s, length: %d, first: '%c', middle: '%c', last: '%c')", p, length, first, middle, last)
+	l := geometry.MakeLine(p, geometry.MakePoint(p.X()+length, p.Y()))
+	if !t.InScreenBoundsLine(l) {
+		return ErrOutOfBoundsRequest(t.log, t.ScreenBounds(), l)
+	}
 
+	t.driver.SetCell(p.X(), p.Y(), first, t.fg, t.bg)
+	for x := 1; x < length-1; x++ {
+		t.driver.SetCell(p.X()+x, p.Y(), middle, t.fg, t.bg)
+	}
+	t.driver.SetCell(p.X()+length-1, p.Y(), last, t.fg, t.bg)
 	return nil
 }
 
-func (t term) DrawLineVertical(p geometry.Point, length int) error {
+func (t term) DrawLineVertical(p geometry.Point, length int, first, middle, last rune) error {
+	t.log("DrawLineVertical(%s, length: %d, first: '%c', middle: '%c', last: '%c')", p, length, first, middle, last)
+	l := geometry.MakeLine(p, geometry.MakePoint(p.X()+length, p.Y()))
+	if !t.InScreenBoundsLine(l) {
+		return ErrOutOfBoundsRequest(t.log, t.ScreenBounds(), l)
+	}
+
+	t.driver.SetCell(p.X(), p.Y(), first, t.fg, t.bg)
+	for y := 1; y < length-1; y++ {
+		t.driver.SetCell(p.X(), p.Y()+y, middle, t.fg, t.bg)
+	}
+	t.driver.SetCell(p.X(), p.Y()+length-1, last, t.fg, t.bg)
+	return nil
 
 	return nil
 }
