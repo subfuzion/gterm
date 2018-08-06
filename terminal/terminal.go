@@ -75,11 +75,6 @@ func (t term) Clear() {
 	t.driver.Clear(t.fg, t.bg)
 }
 
-func (t term) ClearRect(rect geometry.Rectangle) error {
-	t.log("ClearRect(%s, '%c')", rect)
-	return t.FillRect(rect, ' ')
-}
-
 func (t term) Fill(ch rune) {
 	t.log("Fill('%c')", ch)
 	t.driver.Fill(t.fg, t.bg, ch)
@@ -88,12 +83,57 @@ func (t term) Fill(ch rune) {
 func (t term) FillRect(rect geometry.Rectangle, ch rune) error {
 	t.log("FillRect(%s, '%c')", rect, ch)
 
-	//w, h := t.Size()
-	//termRect := geometry.MakeRectangle(0, 0, w, h)
-	//if !termRect.ContainsRectangle(rect) {
-	//	return ErrOutOfBoundsRequest(t.log, termRect, rect)
-	//}
+	if !t.InScreenBoundsRectangle(rect) {
+		return ErrOutOfBoundsRequest(t.log, t.ScreenBounds(), rect)
+	}
 
 	t.driver.FillRect(rect, t.fg, t.bg, ch)
 	return nil
+}
+
+func (t term) ClearRect(rect geometry.Rectangle) error {
+	t.log("ClearRect(%s, '%c')", rect)
+	return t.FillRect(rect, ' ')
+}
+
+func (t term) SetCell(x, y int, ch rune) error {
+	t.log("SetCell(%d, %d, '%c')", x, y, ch)
+
+	if !t.InScreenBoundsCoords(x, y) {
+		return ErrOutOfBoundsRequest(t.log, t.ScreenBounds(), geometry.MakePoint(x, y))
+	}
+
+	t.driver.SetCell(x, y, ch, t.fg, t.bg)
+	return nil
+}
+
+func (t term) DrawLineHorizontal(p geometry.Point, length int) error {
+
+	return nil
+}
+
+func (t term) DrawLineVertical(p geometry.Point, length int) error {
+
+	return nil
+}
+
+func (t term) ScreenBounds() geometry.Rectangle {
+	w, h := t.Size()
+	return geometry.MakeRectangle(0, 0, w, h)
+}
+
+func (t term) InScreenBoundsCoords(x, y int) bool {
+	return t.ScreenBounds().ContainsCoords(x, y)
+}
+
+func (t term) InScreenBoundsPoint(p geometry.Point) bool {
+	return t.ScreenBounds().ContainsPoint(p)
+}
+
+func (t term) InScreenBoundsLine(l geometry.Line) bool {
+	return t.ScreenBounds().ContainsLine(l)
+}
+
+func (t term) InScreenBoundsRectangle(rect geometry.Rectangle) bool {
+	return t.ScreenBounds().ContainsRectangle(rect)
 }

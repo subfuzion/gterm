@@ -70,3 +70,7 @@ func (d driver) FillRect(rect geometry.Rectangle, fg, bg style.CellStyle, ch run
 		}
 	}
 }
+
+func (d driver) SetCell(x, y int, ch rune, fg, bg style.CellStyle) {
+	tb.SetCell(x, y, ch, tb.Attribute(fg), tb.Attribute(bg))
+}

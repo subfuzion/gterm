@@ -29,6 +29,10 @@ type Point struct {
 	y int
 }
 
+func MakePoint(x, y int) Point {
+	return Point{x, y}
+}
+
 func (p Point) String() string {
 	return fmt.Sprintf("Point{x: %d, y: %d}", p.x, p.y)
 }
@@ -162,6 +166,10 @@ type Line struct {
 	b Point
 }
 
+func MakeLine(a, b Point) Line {
+	return Line{a, b}
+}
+
 func (l Line) String() string {
 	return fmt.Sprintf("Line{a: %s, b: %s}", l.a, l.b)
 }
@@ -203,6 +211,14 @@ func (l Line) Horizontal() bool {
 type Rectangle struct {
 	leftTop     Point
 	rightBottom Point
+}
+
+func MakeRectangle(x, y, width, height int) Rectangle {
+	return NormalRectangle(Point{x, y}, Point{x + width, y + height})
+}
+
+func MakeRectangleOffset(r Rectangle, x, y int) Rectangle {
+	return MakeRectangle(r.leftTop.x+x, r.leftTop.y+y, r.Width(), r.Height())
 }
 
 func (r Rectangle) String() string {
@@ -275,6 +291,12 @@ func (r Rectangle) ContainsRectangle(other Rectangle) bool {
 		r.rightBottom.IsGreaterThanOrEqual(other.rightBottom)
 }
 
+func (r Rectangle) ContainsCoords(x, y int) bool {
+	p := MakePoint(x, y)
+	return r.leftTop.IsLessThanOrEqual(p) &&
+		r.rightBottom.IsGreaterThanOrEqual(p)
+}
+
 func (r Rectangle) ContainsPoint(p Point) bool {
 	return r.leftTop.IsLessThanOrEqual(p) &&
 		r.rightBottom.IsGreaterThanOrEqual(p)
@@ -292,12 +314,4 @@ func (r Rectangle) ClipLine(l Line) Line {
 		a: MaxPoint(r.leftTop, MinPoint(l.a, l.b)),
 		b: MinPoint(r.rightBottom, MaxPoint(l.a, l.b)),
 	}
-}
-
-func MakeRectangle(x, y, width, height int) Rectangle {
-	return NormalRectangle(Point{x, y}, Point{x + width, y + height})
-}
-
-func MakeRectangleOffset(r Rectangle, x, y int) Rectangle {
-	return MakeRectangle(r.leftTop.x+x, r.leftTop.y+y, r.Width(), r.Height())
 }

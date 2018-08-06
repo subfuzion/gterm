@@ -24,6 +24,9 @@ type Interface interface {
 	// Set color and other style attributes for subsequent rendering operations.
 	SetStyle(fg, bg style.CellStyle)
 
+	// Clear erases the terminal screen.
+	Clear()
+
 	// Fill sets the terminal screen contents with the specified rune.
 	Fill(rune)
 
@@ -31,12 +34,26 @@ type Interface interface {
 	// Returns an error if the rect exceeds the terminal bounds.
 	FillRect(geometry.Rectangle, rune) error
 
-	// Clear erases the terminal screen.
-	Clear()
-
 	// ClearRect erases the terminal screen contents specified by rect
 	// (uses FillRect with the current background color and the run for
 	// a space character).
 	// Returns an error if the rect exceeds the terminal bounds.
 	ClearRect(geometry.Rectangle) error
+
+	// SetCell writes the rune to the screen location using the current
+	// style.
+	// Retuirns an error if the location specified is out of bounds.
+	SetCell(x, y int, ch rune) error
+
+	// DrawLineHorizontal draws a horizontal line using the first and last
+	// runes for the segment endponts, and the middle rune repeated in between.
+	// The length can be negative.
+	// Returns an error if the line is drawn out of bounds.
+	//	DrawLineHorizontal(p geometry.Point, length int, first, middle, last rune) error
+
+	// DrawLineVertical draws a vertical line using the first and last
+	// runes for the segment endponts, and the middle rune repeated in between.
+	// The length can be negative.
+	// Returns an error if the line is drawn out of bounds.
+	//	DrawLineVertical(p geometry.Point, length int, first, middle, last rune) error
 }
