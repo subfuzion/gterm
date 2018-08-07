@@ -45,11 +45,10 @@ type Interface interface {
 	// Returns an error if the location specified is out of bounds.
 	SetCell(x, y int, ch rune) error
 
-	// DrawLineHorizontal draws a horizontal line using the first and last
-	// runes for the segment endponts, and the middle rune repeated in between.
+	// DrawLineHorizontal draws a horizontal line of the specified length.
 	// The length can be negative.
 	// Returns an error if the line is drawn out of bounds.
-	DrawLineHorizontal(p geometry.Point, length int, first, middle, last rune) error
+	DrawLineHorizontal(p geometry.Point, length int) error
 
 	// DrawLineVertical draws a vertical line using the first and last
 	// runes for the segment endponts, and the middle rune repeated in between.
